@@ -1,24 +1,24 @@
--- ´´½¨Í¼Êé±í
+-- ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½
 CREATE TABLE `book` (
-  `book_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Í¼ÊéID',
-  `name` varchar(100) NOT NULL COMMENT 'Í¼ÊéÃû³Æ',
-  `number` int(11) NOT NULL COMMENT '¹Ý²ØÊýÁ¿',
+  `book_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Í¼ï¿½ï¿½ID',
+  `name` varchar(100) NOT NULL COMMENT 'Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+  `number` int(11) NOT NULL COMMENT 'ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½',
   PRIMARY KEY (`book_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT='Í¼Êé±í'
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT='Í¼ï¿½ï¿½ï¿½';
 
--- ³õÊ¼»¯Í¼ÊéÊý¾Ý
+-- ï¿½ï¿½Ê¼ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 INSERT INTO `book` (`book_id`, `name`, `number`)
 VALUES
-	(1000, 'Java³ÌÐòÉè¼Æ', 10),
-	(1001, 'Êý¾Ý½á¹¹', 10),
-	(1002, 'Éè¼ÆÄ£Ê½', 10),
-	(1003, '±àÒëÔ­Àí', 10)
+	(1000, 'Javaï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 10),
+	(1001, 'ï¿½ï¿½ï¿½Ý½á¹¹', 10),
+	(1002, 'ï¿½ï¿½ï¿½Ä£Ê½', 10),
+	(1003, 'ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½', 10);
 
--- ´´½¨Ô¤Ô¼Í¼Êé±í
+-- ï¿½ï¿½ï¿½ï¿½Ô¤Ô¼Í¼ï¿½ï¿½ï¿½
 CREATE TABLE `appointment` (
-  `book_id` bigint(20) NOT NULL COMMENT 'Í¼ÊéID',
-  `student_id` bigint(20) NOT NULL COMMENT 'Ñ§ºÅ',
-  `appoint_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Ô¤Ô¼Ê±¼ä' ,
+  `book_id` bigint(20) NOT NULL COMMENT 'Í¼ï¿½ï¿½ID',
+  `student_id` bigint(20) NOT NULL COMMENT 'Ñ§ï¿½ï¿½',
+  `appoint_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Ô¤Ô¼Ê±ï¿½ï¿½' ,
   PRIMARY KEY (`book_id`, `student_id`),
   INDEX `idx_appoint_time` (`appoint_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Ô¤Ô¼Í¼Êé±í'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Ô¤Ô¼Í¼ï¿½ï¿½ï¿½';
