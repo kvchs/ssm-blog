@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="com.javaex.blog.dao.user_info.IUserInfoDao">
-	<resultMap id="UserInfoMap" type="com.blog.entity.UserInfo">
+<mapper namespace="com.blog.dao.UserInfoDao">
+	<resultMap id="userInfoMap" type="com.blog.entity.UserInfo">
 		<result column="id" property="id"/>
 		<result column="name" property="name"/>
 		<result column="passowrd" property="password"/>
 		
 	</resultMap>
-	<select id="checkUser" resultMap="UserInfoMap">
+	<select id="checkUser" resultMap="userInfoMap">
 		SELECT * FROM user_info WHERE name=#{name} and password=#{password}
 	</select>
 </mapper>

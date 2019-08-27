@@ -1,5 +1,7 @@
 package com.blog.dto;
 
+import org.springframework.util.StringUtils;
+
 /**
  * 封装json对象，所有返回结果都使用它
  */
@@ -13,6 +15,24 @@ public class Result<T> {
 
 	public Result() {
 	}
+	
+	/*public static Result<String> success(){
+		Result<String> result = new Result<>();
+		result.setSuccess(true);
+		result.setData("操作成功");
+		return result;
+	}
+	
+	public static Result<String> error(String msg){
+		Result<String> result = new Result<>();
+		result.setSuccess(false);
+		if (StringUtils.isEmpty(msg)) {
+			result.setData("操作失败");
+		}else {
+			result.setData(msg);
+		}
+		return result;
+	}*/
 
 	// 成功时的构造器
 	public Result(boolean success, T data) {

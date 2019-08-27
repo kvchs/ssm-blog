@@ -9,7 +9,8 @@
 		VALUES (#{bookId}, #{studentId})
 	</insert>
 	
-	<select id="queryByKeyWithBook" resultType="Appointment">
+	<!-- 注意：此处的resultType必须写类的全名 -->
+	<select id="queryByKeyWithBook" resultType="com.blog.entity.Appointment">
 		<!-- 如何告诉MyBatis把结果映射到Appointment同时映射book属性 -->
 		<!-- 可以自由控制SQL -->
 		SELECT
