@@ -84,8 +84,9 @@
 			<!--表格上方的操作元素，添加、删除等-->
 			<div class="operation-wrap">
 				<div class="buttons-wrap">
-					<button class="button blue radius-3"><span class="icon-plus"></span> 添加</button>
-					<button class="button red radius-3"><span class="icon-close2"></span> 删除</button>
+					<button class="button blue radius-3" id="add"><span class="icon-plus"></span> 添加</button>
+					<button class="button green" id="save"><span class="icon-check2"></span> 保存</button>
+					<button class="button red radius-3" id="delete"><span class="icon-close2"></span> 删除</button>
 				</div>
 			</div>
 			<table id="table" class="table">
@@ -98,9 +99,9 @@
 				<tbody>
 					<c:forEach items="${list}" var="entity" varStatus="status">
 						<tr>
-							<td><input type="checkbox" value="${entity.id}" class="fill listen-1-2"> </td>
-							<td><input type="text" name="sort" data-type="正整数" value="${entity.sort}" error-msg="必须为正整数"></td>
-							<td>${entity.name}</td>
+							<td><input type="checkbox" value="${entity.id}" class="fill listen-1-2" name="id"> </td>
+							<td><input type="text" name="sort" data-type="正整数" value="${entity.sort}" error-msg="必须为正整数" style="width:50;"></td>
+							<td><input type="text" name="name" data-type="必填" placeholder="请输入类型名称"  style="width:100;" value="${entity.name}"></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -111,150 +112,129 @@
 		</div>
 
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-	<%-- 	<div class="wrap">
-			<!-- 头部 -->
-			<div id="header">
-				<c:import url="header.jsp"></c:import>
-			</div>
-
-			<!-- 左侧菜单和主体内容 -->
-			<div class="grid-1-7" style="flex: 1; margin: 0;">
-				<c:import url="menu.jsp"></c:import>
-
-				<div class="content">
-					<div class="content-header">
-						<div class="breadcrumb">
-							<span>权限配置</span> <span class="divider">/</span> <span
-								class="active">角色管理</span>
-						</div>
-
-						<!-- 主体内容 -->
-						<!--主体内容-->
-						<div class="list-content clear">
-							<!--块元素-->
-							<div class="block">
-								<!--页面有多个表格时，可以用于标识表格-->
-								<h2>标题</h2>
-								<!--右上角的返回按钮-->
-								<a href="javascript:history.back();">
-									<button class="button indigo radius-3"
-										style="position: absolute; right: 20px; top: 16px;">
-										<span class="icon-arrow_back"></span> 返回
-									</button>
-								</a>
-
-								<!--正文内容-->
-								<div class="main">
-									<!--表格上方的搜索操作-->
-									<div class="admin-search">
-										<div class="input-group">
-											<input type="text" class="text" placeholder="提示信息" />
-											<button class="button blue">搜索</button>
-										</div>
-									</div>
-
-									<!--表格上方的操作元素，添加、删除等-->
-									<div class="operation-wrap">
-										<div class="buttons-wrap">
-											<button class="button blue radius-3">
-												<span class="icon-plus"></span> 添加
-											</button>
-											<button class="button red radius-3">
-												<span class="icon-close2"></span> 删除
-											</button>
-										</div>
-									</div>
-									<table id="table" class="table color2">
-										<thead>
-											<tr>
-												<th class="checkbox"><input type="checkbox"
-													class="fill listen-1" /></th>
-												<th>序号</th>
-												<th>市区</th>
-												<th>省区</th>
-												<th>国别</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td class="checkbox"><input type="checkbox"
-													class="fill listen-1-2" /></td>
-												<td>1</td>
-												<td>苏州</td>
-												<td>江苏省</td>
-												<td>中国</td>
-											</tr>
-											<tr>
-												<td class="checkbox"><input type="checkbox"
-													class="fill listen-1-2" /></td>
-												<td>2</td>
-												<td>无锡</td>
-												<td>江苏省</td>
-												<td>中国</td>
-											</tr>
-											<tr>
-												<td class="checkbox"><input type="checkbox"
-													class="fill listen-1-2" /></td>
-												<td>3</td>
-												<td>常州</td>
-												<td>江苏省</td>
-												<td>中国</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-			</div>
-
-		</div>
- --%>
-
-	<script>
-		var hightUrl = "xxxx";
-		javaex.menu({
-			id : "menu",
-			isAutoSelected : true,
-			key : "",
-			url : hightUrl
-		});
-
-		$(function() {
-			// 设置左侧菜单高度
-			setMenuHeight();
-		});
-
-		/**
-		 * 设置左侧菜单高度
-		 */
-		function setMenuHeight() {
-			var height = document.documentElement.clientHeight
-					- $("#admin-toc").offset().top;
-			height = height - 10;
-			$("#admin-toc").css("height", height + "px");
+<script>
+	$("#add").click(function(){
+		var html = '';
+		html += '<tr>';
+		html += '<td><input type="checkbox" value="${entity.id}" class="fill listen-1-2" name="id"> </td>';
+		html += '<td><input type="text" name="sort" data-type="正整数" value="${entity.sort}" error-msg="必须为正整数" style="width:50;"></td>';
+		html += '<td><input type="text" name="name" data-type="必填" placeholder="请输入类型名称"  style="width:100;" value=""></td>';
+		html += '</tr>';
+		$("#table tbody").append(html);
+		/* 重新渲染页面 */
+		javaex.render();
+	});
+	
+	var idArr = new Array();
+	var sortArr = new Array();
+	var nameArr = new Array();
+	/* 点击保存按钮 */
+	$("#save").click(function(){
+		if(javaexVerify()){
+			idArr = [];
+			sortArr = [];
+			nameArr = [];
+			$(':checkbox[name="id"]').each(function(){
+				idArr.push($(this).val());
+			});
+			$(':input[name="sort"]').each(function(){
+				sortArr.push($(this).val());
+			});
+			$(':input[name="name"]').each(function(){
+				nameArr.push($(this).val());
+			});
+			
+			$.ajax({
+				url: "${pageContext.request.contextPath}/type/save_type",
+				type: "post",
+				/* 返回值类型 */
+				dataType: "json",
+				/* 添加数组数据支持 */
+				traditional: "true",
+				/* 传输的数据  */
+				data:{
+					"idArr": idArr,
+					"sortArr": sortArr,
+					"nameArr": nameArr
+				},
+				success: function(rtn){
+					console.log(rtn);
+					if(rtn.success==true){
+						javaex.optTip({
+							content: rtn.data
+						});
+						// 延迟加载
+						setTimeout(function(){
+							window.location.reload();
+						});
+					}else{
+						javaex.optTip({
+							content: rtn.error,
+							type: "error"
+						});
+					}
+				}
+			});
 		}
-
-		// 控制页面载入
-		function page(url) {
-			$("#page").attr("src", url);
+	});
+	
+	/* 点击删除按钮 */
+	$("#delete").click(function(){
+		idArr=[];
+		/* 遍历所有被勾选的复选框 */
+		$(':checkbox[name="id"]:checked').each(function(){
+			console.log($(this).val());
+			var id = $(this).val();
+			if(id!=""){
+			    idArr.push(id);
+			}
+			
+		});
+		console.log("===========");
+		console.log(idArr);
+		/* 判断勾选的是否是新增的空白记录 */
+		if(idArr.length==0){
+			//console.log(idArr);
+			/* 前提无刷新新增的类型 */
+			$(':checkbox[name="id"]:checked').each(function(){
+				
+				$(this).parent().parent().parent().remove();
+			});
+		}else{
+			
+			$.ajax({
+				url: "${pageContext.request.contextPath}/type/delete",
+				type: "post",
+				/* 返回值类型 */
+				dataType: "json",
+				/* 添加数组数据支持 */
+				traditional: "true",
+				/* 传输的数据  */
+				data:{
+					"idArr": idArr
+				},
+				success: function(rtn){
+					console.log(rtn);
+					if(rtn.success==true){
+						javaex.optTip({
+							content: rtn.data
+						});
+						// 延迟加载
+						setTimeout(function(){
+							window.location.reload();
+						});
+					}else{
+						javaex.optTip({
+							content: rtn.error,
+							type: "error"
+						});
+					}
+				}
+			});
+			
 		}
-	</script>
+	});
+
+</script>
 </body>
 </html>

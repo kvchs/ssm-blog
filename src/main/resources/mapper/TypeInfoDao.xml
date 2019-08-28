@@ -11,4 +11,35 @@
 	<select id="list" resultMap="typeInfoMap">
 		SELECT * FROM type_info ORDER BY sort
 	</select>
+	
+	<!-- 插入数据 -->
+	<insert id="insert">
+		insert into type_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="sort != null and sort != '' ">sort,</if>
+		<if test="name != null and name != '' ">name,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="sort!=null">#{sort},</if>
+			<if test="name!=null">#{name},</if>
+		</trim>
+	</insert>
+	
+	<!-- 更新数据 -->
+	<update id="update">
+		update type_info
+		<set>
+			<if test="sort!=null and sort!=''">sort=#{sort},</if>
+			<if test="name!=null and sort!=''">name=#{name},</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<!-- 批量删除数据 -->
+	<delete id="delete">
+		DELETE FROM type_info where id IN
+		<foreach collection="idArr" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>

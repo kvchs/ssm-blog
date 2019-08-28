@@ -45,6 +45,13 @@ public class Result<T> {
 		this.success = success;
 		this.error = error;
 	}
+	
+
+	public Result(boolean success, T data, String error) {
+		this.success = success;
+		this.data = data;
+		this.error = error;
+	}
 
 	public boolean isSuccess() {
 		return success;
