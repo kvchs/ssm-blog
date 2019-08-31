@@ -163,13 +163,22 @@
 			<version>2.8.5</version>
 		</dependency>
 
-        <!-- 解决 javax.servlet.jsp.PageContext cannot be resolved to a type报错 -->
+		<!-- 解决 javax.servlet.jsp.PageContext cannot be resolved to a type报错 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>2.0</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- 添加文件上传依赖 -->
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>ssm</finalName>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.blog.dao.ArticleInfoDao">
+	<resultMap id="articleInfoMap" type="com.blog.entity.ArticleInfo">
+		<result column="id" property="id"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="content_text" property="contentText"/>
+		<result column="cover" property="cover"/>
+		<result column="view_count" property="viewCount"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="status" property="status"/>
+		<result column="type_id" property="typeId"/>
+		
+	</resultMap>
+	<select id="list" resultMap="articleInfoMap">
+		SELECT * FROM article_info where status='1' order by update_time DESC
+	</select>
+	
+	
+	<select id="selectById" resultMap="articleInfoMap">
+		select * from article_info where id=${id}
+	</select>
+
+</mapper>
