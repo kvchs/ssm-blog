@@ -179,6 +179,15 @@
 			<version>1.4</version>
 		</dependency>
 
+		<!-- 分页 -->
+		<!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>5.1.10</version>
+		</dependency>
+
+
 	</dependencies>
 	<build>
 		<finalName>ssm</finalName>

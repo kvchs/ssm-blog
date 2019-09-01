@@ -78,6 +78,7 @@
 					<!--正文内容-->
 					<div class="main">
 						<form id="form">
+							<input type="hidden" name="id" value="${articleInfo.id}">
 							<!--文本框-->
 							<div class="unit clear">
 								<div class="left">
@@ -85,8 +86,8 @@
 									<p class="subtitle">文章标题</p>
 								</div>
 								<div class="right">
-									<input type="text" class="text" data-type="必填"
-										error-msg="文章标题错误" error-pos="42" placeholder="请输入文章标题" />
+									<input type="text" class="text" name="title" data-type="必填"
+										error-msg="文章标题错误" error-pos="42" placeholder="请输入文章标题" value="${articleInfo.title}" />
 								</div>
 							</div>
 
@@ -98,12 +99,17 @@
 									<p class="subtitle">文章分类</p>
 								</div>
 								<div class="right">
-									<select id="type_id">
+									<select id="typeId" name="typeId">
 										<c:forEach items="${typeList}" var="typeInfo" varStatus="status">
-										<tr>
-									<option value="${typeInfo.id}">${typeInfo.name}</option>
-										</tr>
-							</c:forEach>
+											<c:choose>
+												<c:when test="${articleInfo.typeId==typeInfo.id}">
+													<option value="${typeInfo.id}" selected>${typeInfo.name}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${typeInfo.id}">${typeInfo.name}</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
 									</select>
 								</div>
 							</div>
@@ -116,17 +122,27 @@
 								<div class="right">
 									<a href="javascript:;">
 										<label id="container2" for="upload2" style="display: inline-block; width:132px;height:74px;">
-											<img class="upload-img-cover" src="${pageContext.request.contextPath}/static/images/upAvatar.jpg" width="100%" height="100%">
+										 	<c:choose>
+												<c:when test="${empty articleInfo.cover}">
+												<img class="upload-img-cover" src="${pageContext.request.contextPath}/static/images/upAvatar.jpg" width="100%" height="100%">
+												</c:when>
+												<c:otherwise>
+													<img class="upload-img-cover" src="${pageContext.request.contextPath}/static/images/upAvatar.jpg" width="100%" height="100%">
+												</c:otherwise>
+											</c:choose> 
+											
+										<%-- <img class="upload-img-cover" src="${pageContext.request.contextPath}/static/images/upAvatar.jpg" width="100%" height="100%"> --%>
+											
 										</label>
 										<input type="file" class="hide" id="upload2" accept="image/gif, image/jpeg, image/jpg, image/png" />
 									</a>
-								
+									<input type="hidden" id="cover" name="cover" value=""/>
 								
 								</div>
 							</div>
 
 							<!--日期选择框-->
-							<div class="unit clear">
+						<!-- 	<div class="unit clear">
 								<div class="left">
 									<p class="subtitle">注册时间</p>
 								</div>
@@ -134,7 +150,7 @@
 									<input type="text" id="date" class="ex-date"
 										style="width: 200px;" value="" readonly />
 								</div>
-							</div>
+							</div> -->
 
 							<!--文本域-->
 							<div class="unit clear">
@@ -142,13 +158,13 @@
 									<p class="subtitle">内容</p>
 								</div>
 								<div class="right">
-									<div id="edit" class="edit-container">测试回显</div>
-									<input type="hidden" id="contentHtml" name="contentHtml" value="" />
+									<div id="edit" class="edit-container"></div>
+									<input type="hidden" id="content" name="content" value="" />
 									<input type="hidden" id="contentText" name="contentText" value="" />
 								</div>
 							</div>
-
-							<!--标签-->
+<!-- 
+							标签
 							<div class="unit clear">
 								<div class="left">
 									<p class="subtitle">标签</p>
@@ -157,7 +173,7 @@
 									<div class="tagbox"></div>
 									<input type="hidden" id="tag" name="tag" value="" />
 								</div>
-							</div>
+							</div> -->
 
 							<!--提交按钮-->
 							<div class="unit clear" style="width: 800px;">
@@ -177,7 +193,7 @@
 <script>
 
 javaex.select({
-	id : "type_id",
+	id : "typeId",
 	isSearch : false,
 	// 回调函数
 	callback: function (rtn) {
@@ -199,6 +215,7 @@ javaex.upload({
 		
 		if (rtn.success==true) {
 			$("#container2 img").attr("src", "/upload/" + rtn.data);
+			$("#cover").val(rtn.data);
 		} else {
 			javaex.optTip({
 				content : rtn.error,
@@ -208,7 +225,7 @@ javaex.upload({
 	}
 });
 
-
+var content = '${articleInfo.content}';
 javaex.edit({
 		id : "edit",
 		image : {
@@ -220,11 +237,50 @@ javaex.edit({
 			imgUrl : "data"	// 根据返回的数据对象，获取图片地址。  例如后台返回的数据为：{code: "000000", message: "操作成功！", data: {imgUrl: "/1.jpg"}}
 		},
 		isInit : true,
+		content: content,
 		callback : function(rtn) {
-			$("#contentHtml").val(rtn.html);
-			$("#contentText").val(rtn.text);
+			$("#content").val(rtn.html);
+			$("#contentText").val(rtn.text.substring(0,100));
 		}
 	}); 
+	
+	$("#return").click(function(){
+		history.back();
+	});
+	
+	$("#save").click(function(){
+		$.ajax({
+			url: "save",
+			type: "post",
+			/* 返回值类型 */
+			dataType: "json",
+			/* 传输的数据  */
+			data: $("#form").serialize(),
+			success: function(rtn){
+				console.log(rtn);
+				
+				console.log(rtn);
+				if(rtn.success==true){
+					javaex.optTip({
+						content: rtn.data
+					});
+					// 延迟加载
+					setTimeout(function(){
+						window.location.href="${pageContext.request.contextPath}/article/list";
+					});
+				}else{
+					javaex.optTip({
+						content: rtn.error,
+						type: "error"
+					});
+				}
+			},
+			error: function(rtn){
+				addErrorMsg("loginName", "2222");
+				
+			}
+		});
+	});
 </script>
 </body>
 </html>

@@ -2,25 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="com.blog.dao.ArticleInfoDao">
-	<resultMap id="articleInfoMap" type="com.blog.entity.ArticleInfo">
-		<result column="id" property="id"/>
-		<result column="title" property="title"/>
-		<result column="content" property="content"/>
-		<result column="content_text" property="contentText"/>
-		<result column="cover" property="cover"/>
-		<result column="view_count" property="viewCount"/>
-		<result column="update_time" property="updateTime"/>
-		<result column="status" property="status"/>
-		<result column="type_id" property="typeId"/>
-		
+	<resultMap id="articleInfoMap"
+		type="com.blog.entity.ArticleInfo">
+		<result column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="content_text" property="contentText" />
+		<result column="cover" property="cover" />
+		<result column="view_count" property="viewCount" />
+		<result column="update_time" property="updateTime" />
+		<result column="status" property="status" />
+		<result column="type_id" property="typeId" />
+
+		<result column="name" property="name" />
+
 	</resultMap>
 	<select id="list" resultMap="articleInfoMap">
-		SELECT * FROM article_info where status='1' order by update_time DESC
-	</select>
-	
-	
-	<select id="selectById" resultMap="articleInfoMap">
-		select * from article_info where id=${id}
+		<!-- SELECT * FROM article_info where status='1' order by update_time DESC -->
+		SELECT
+		ai.id,
+		ti.`name`,
+		ai.title,
+		ai.update_time,
+		ai.view_count
+		FROM
+		article_info ai,
+		type_info ti
+		WHERE
+		ai.type_id=ti.id
+		AND status='1'
+		ORDER BY
+		ai.update_time DESC
 	</select>
 
+
+	<select id="selectById" resultMap="articleInfoMap">
+		select * from article_info
+		where id=#{id}
+	</select>
+
+	<insert id="insert">
+		insert into article_info
+		(id,title,content,content_text,cover,view_count,update_time,status,type_id)
+		values(#{id},#{title},#{content},#{contentText},#{cover},#{viewCount},#{updateTime},#{status},#{typeId})
+	</insert>
+
+	<update id="update">
+		update article_info set
+		title=#{title},content=#{content},content_text=#{contentText},cover=#{cover},view_count=#{viewCount},update_time=#{updateTime},status=#{status},type_id=#{typeId}
+		where id=#{id}
+	</update>
 </mapper>

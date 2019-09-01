@@ -9,11 +9,21 @@ public class ArticleInfo {
 	private String content;
 	private String contentText;
 	private String cover;
-	private String viewCount;
+	private int viewCount;
 	private String typeId;
 	// 1正常 0回收站
 	private int status; 
-	private Date updateTime;
+	private String updateTime;
+	
+	// 文章分类名称
+	private String name;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getId() {
 		return id;
 	}
@@ -50,10 +60,10 @@ public class ArticleInfo {
 	public void setCover(String cover) {
 		this.cover = cover;
 	}
-	public String getViewCount() {
+	public int getViewCount() {
 		return viewCount;
 	}
-	public void setViewCount(String viewCount) {
+	public void setViewCount(int viewCount) {
 		this.viewCount = viewCount;
 	}
 	public int getStatus() {
@@ -62,10 +72,10 @@ public class ArticleInfo {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public Date getUpdateTime() {
+	public String getUpdateTime() {
 		return updateTime;
 	}
-	public void setUpdateTime(Date updateTime) {
+	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
 	@Override

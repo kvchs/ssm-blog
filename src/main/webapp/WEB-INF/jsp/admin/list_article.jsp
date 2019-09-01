@@ -73,11 +73,26 @@
 		
 		<!--正文内容-->
 		<div class="main">
+		
+			<select id="type_id">
+				<c:forEach items="${typeList}" var="typeInfo" varStatus="status">
+											<c:choose>
+												<c:when test="${articleInfo.typeId==typeInfo.id}">
+													<option value="${typeInfo.id}" selected>${typeInfo.name}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${typeInfo.id}">${typeInfo.name}</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+			</select>
+			<!--不一定是input，可以使用div或span等其他元素-->
+			<input type="text" id="date2" class="ex-date" style="width: 220px;" value="" readonly/>
 			<!--表格上方的搜索操作-->
 			<div class="admin-search">
 				<div class="input-group">
-					<input type="text" class="text" placeholder="提示信息" />
-					<button class="button blue">搜索</button>
+					<input type="text" class="text" placeholder="搜索标题"  id="title"/>
+					<button class="button blue" onclick="search()">搜索</button>
 				</div>
 			</div>
 			
@@ -102,7 +117,7 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(list)==0}">
+						<c:when test="${fn:length(pageInfo.list)==0}">
 						<tr>
 							<td colspan="7" style="text-align:center;">暂无记录</td>
 						</tr>
@@ -110,21 +125,97 @@
 						<c:otherwise>
 							<c:forEach items="${pageInfo.list}" var="entity" varStatus="status">
 								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
+								    <td><input type="checkbox" class="fill listen-1-2" name="id" value="${entity.id}"></td>
+									<td>${status.index+1}</td>
+									<td>${entity.name}</td>
+									<td>${entity.title}</td>
+									<td>${entity.updateTime}</td>
+									<td>${entity.viewCount}</td>
+									<td>
+										<a href="edit?id=${entity.id}">
+											<button class="button green" ><span class="icon-edit-2"></span> 编辑</button>
+										</a>
+									</td>
 								</tr>
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
 				</tbody>
 			</table>
+			
+			<!-- 分页 -->
+			<div class="page">
+	       		 <ul id="page" class="pagination"></ul>
+			</div>
+			
+			<!--内容区域-->
+			<!--块元素-->
+			<div class="block no-shadow">
+		<!--banner用来修饰块元素的名称-->
+				<div class="banner">
+				<p class="tab fixed">批量操作</p>
+			</div>
+		<!--正文内容-->
+		<div class="main">
+			<input type="radio" class="fill" name="radio" />批量移动到板块
+			<br/>
+			<input type="radio" class="fill" name="radio" />批量删除
+		</div>
+			
+			
 		</div>
 	</div>
 </div>
 		</div>
 
 	</div>
+<script>
 
+var currentPage = "${pageInfo.pageNum}";
+var pageCount = "${pageInfo.pages}";
+var startDate = "";
+var endDate = "";
+javaex.page({
+	id : "page",
+	pageCount : pageCount,	// 总页数
+	currentPage : currentPage,// 默认选中第几页
+	perPageCount : 10,	// 每页显示多少条，不填时，不显示该条数选择控件
+	isShowJumpPage : true,	// 是否显示跳页
+	totalNum : 125,		// 总条数，不填时，不显示
+	position : "right",
+	callback : function(rtn) {
+		console.log("当前选中的页数：" + rtn.pageNum);
+		console.log("每页显示条数：" + rtn.perPageCount);
+		search(rtn);
+		
+	}
+});
+
+function search(pageNum){
+	// 文章分类
+	var typeId=$("#type_id").val();
+	var title=$("#title").val();
+	
+	window.location.href="list?pageNum="+pageNum.pageNum;
+}
+
+javaex.date({
+	id : "date2",		// 承载日期组件的id
+	monthNum : 2,		// 2代表选择范围日期
+	startDate : "",	// 开始日期
+	endDate : "",		// 结束日期
+	// 重新选择日期之后返回一个时间对象
+	callback : function(rtn) {
+		startDate = rtn.startDate;
+		endDate = rtn.endDate;
+	}
+});
+
+javaex.select({
+	id : "type_id"
+	});
+
+
+</script>
 </body>
 </html>

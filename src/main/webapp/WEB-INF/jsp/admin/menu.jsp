@@ -40,7 +40,7 @@
 							<a href="javascript:;">文章管理<i class="icon-keyboard_arrow_left"></i></a>
 							<ul>
 								<li><a href="${pageContext.request.contextPath}/article/list">文章列表</a></li>
-								<li><a href="javascript:page('/admin/user/password');">回收站</a></li>
+								<li><a href="${pageContext.request.contextPath}/portal/index">文章正文</a></li>
 							</ul>
 						</li>
 					</ul>
