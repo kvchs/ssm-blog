@@ -160,7 +160,7 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.8.5</version>
+			<version>2.8.9</version>
 		</dependency>
 
 		<!-- 解决 javax.servlet.jsp.PageContext cannot be resolved to a type报错 -->
